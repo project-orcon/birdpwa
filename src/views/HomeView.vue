@@ -2,16 +2,18 @@
   <div class="list">
     <v-card
       class="mx-auto"
-      :height="$vuetify.breakpoint.mdAndUp ? 500 : 300"
-      v-for="(picture,index) in pictures"
-      v-bind:key="index"
-      @click="displayDetails(picture.id)"
+      v-for="birb in birbs"
+      v-bind:key="birb.id"
+      @click="displayDetails(birb.id)"
     >
-      <v-img class="white--text" height="100%" :src="picture.url">
+      <v-img class="white--text" width="100%" :src="birb.url">
         <v-card-title class="align-end fill-height">
-          <div class="card-title">{{picture.comment}}</div>
+          <div class="card-title">{{birb.title}}</div>
         </v-card-title>
       </v-img>
+    </v-card>
+    <v-card v-if="birbs.length == 0" class="pink">
+      <v-card-text text-center>No images added yet.</v-card-text>
     </v-card>
     <v-btn color="pink" dark fixed bottom right fab to="/post">
       <v-icon>add</v-icon>
@@ -19,7 +21,7 @@
   </div>
 </template>
 <script>
-import data from "../data";
+import { db } from "../services/firebase.js";
 export default {
   methods: {
     displayDetails(id) {
@@ -28,9 +30,10 @@ export default {
   },
   data() {
     return {
-      pictures: data.pictures
+      birbs: []
     };
-  }
+  },
+  firestore: { birbs: db.collection("birbs") }
 };
 </script>
 <style scoped>
@@ -42,6 +45,7 @@ export default {
 .card-title {
   background: rgba(0, 0, 0, 0.5);
   width: 100%;
+  margin: -15px;
   padding: 10px;
 }
 </style>

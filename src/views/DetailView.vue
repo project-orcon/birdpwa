@@ -1,18 +1,27 @@
 <template>
   <div>
-    <v-card class="mx-auto" :height="$vuetify.breakpoint.mdAndUp ? 600 : 300">
-      <v-img class="white--text" height="100%" :src="pictures[$route.params.id].url"></v-img>
-      <v-card-title>{{pictures[$route.params.id].comment}}</v-card-title>
-      <v-card-text>{{pictures[$route.params.id].info}}</v-card-text>
+    <v-card class="mx-auto">
+      <v-img class="white--text" width="100%" :src="currentBirb.url"></v-img>
+      <v-card-title>{{currentBirb.title}}</v-card-title>
+      <v-card-text>{{currentBirb.info}}</v-card-text>
     </v-card>
   </div>
 </template>
 <script>
-import data from "../data";
+import { db } from "../services/firebase.js";
 export default {
+  created() {
+    //https://vuefire.vuejs.org/vuefire/querying.html#one-time-read
+    db.collection("birbs")
+      .doc(this.$route.params.id)
+      .get()
+      .then(snapshot => {
+        this.currentBirb = snapshot.data();
+      });
+  },
   data() {
     return {
-      pictures: data.pictures
+      currentBirb: {}
     };
   }
 };

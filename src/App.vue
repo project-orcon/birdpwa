@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Bird Chat PWA</span>
+        <span>Birb PWA</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
